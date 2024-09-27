@@ -1,0 +1,17 @@
+-- Insert new user
+curl -X POST http://localhost:8080/users -H "Content-Type: application/json" -d '{"name":"John Doe", "email":"john@example.com", "age":30, "city":"New York"}'
+
+-- Insert new user
+curl -X POST http://localhost:8080/users -H "Content-Type: application/json" -d '{"name":"John Doe", "email":"john@example.com", "age":30, "city":"New York"}'
+
+-- Get All users
+muhammadyogapratomo@ITs-MacBook-Air DBLab % curl -X GET http://localhost:8080/users| sed 's/},/}m\n/g'
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   635  100   635    0     0   188k      0 --:--:-- --:--:-- --:--:--  206k
+[{"id":1,"name":"John Doe","email":"john@example.com","age":30,"city":"New York","created_at":"2024-09-27T07:15:38.065485Z"}m
+{"id":2,"name":"Mas Yoga","email":"yoga@example.com","age":35,"city":"Tambun","created_at":"2024-09-27T07:16:01.254914Z"}m
+{"id":3,"name":"Mas Ibam","email":"Imbrahim@example.com","age":5,"city":"North Pole","created_at":"2024-09-27T07:16:29.244254Z"}m
+{"id":4,"name":"Dek Musa","email":"Musa@example.com","age":1,"city":"Antartic","created_at":"2024-09-27T07:17:11.838656Z"}m
+{"id":5,"name":"mastengkorak","email":"mastengkorak@example.com","age":101,"city":"Area51","created_at":"2024-09-27T07:17:49.516296Z"}]
