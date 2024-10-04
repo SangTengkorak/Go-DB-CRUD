@@ -190,6 +190,31 @@ func updateUserCity(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(map[string]string{"message": "User's city updated successfully"})
 }
 
+func updateUserCreation(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    userID, err := strconv.Atoi(vars["id"])
+    if err != nil {
+        http.Error(w, "Invalid user ID", http.StatusBadRequest)
+        return
+    }
+
+    var user User
+    err = json.NewDecoder(r.Body).Decode(&user)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+    sqlStatement := `UPDATE users SET created_at=$1 WHERE id=$2`
+    _, err = db.Exec(sqlStatement, user.Email, userID)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    json.NewEncoder(w).Encode(map[string]string{"message": "User's creation time updated successfully"})
+}
+
 // Delete a user
 func deleteUser(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
@@ -223,6 +248,7 @@ func main() {
     r.HandleFunc("/users/{id}", updateUser).Methods("PUT")      // Update a user's information
     r.HandleFunc("/users/{id}/city", updateUserCity).Methods("PATCH") // Update a specific column (city)
 	r.HandleFunc("/users/{id}/email", updateUserEmail).Methods("PATCH") // Update a specific column (email)
+	r.HandleFunc("/users/{id}/creation", updateUserCreation).Methods("PATCH") // Update a specific column (creation)
     r.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")   // Delete a user
 
     // Start the server
